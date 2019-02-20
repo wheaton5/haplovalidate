@@ -1,0 +1,23 @@
+name: het_snp_kmers
+version: "1.0"
+author: Haynes Heaton <whheaton@gmail.com>
+about: Finds kmer pairs that are different in the middle base and each have roughly haploid coverage. Meant for illumina data as an initial step for de novo phasing.
+args:
+    - primary_fasta:
+        long: primary_fasta
+        short: i
+        takes_value: true
+        required: true
+        help: primary assembly fasta
+    - secondary_fasta:
+        long: secondary_fasta
+        short: s
+        takes_value: true
+        required: true
+        help: alt fasta representing contigs from the second haplotype
+    - het_kmers:
+        long: het_kmers
+        short: k
+        takes_value: true
+        required: false
+        help: kmer size to use, defaults to 21
