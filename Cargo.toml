@@ -8,3 +8,5 @@ clap = {version = "~2.27.0", features = ["yaml"]}
 debruijn = {git = "https://github.com/10XGenomics/rust-debruijn.git"}
 dna_io = {git = "https://github.com/wheaton5/dna_io.git"}
 fnv = "1.0.6"
+hashbrown = "0.1"
+cpuprofiler = "0.0.2"
