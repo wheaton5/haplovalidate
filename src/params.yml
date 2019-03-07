@@ -20,4 +20,4 @@ args:
         short: k
         takes_value: true
         required: false
-        help: kmer size to use, defaults to 21
+        help: file containing het kmer pairs as output by het_kmer_pair tool <kmer1> <count> <kmer2> <count> per file 

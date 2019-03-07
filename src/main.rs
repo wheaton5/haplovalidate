@@ -3,18 +3,12 @@ extern crate clap;
 extern crate debruijn;
 extern crate dna_io;
 extern crate fnv;
-extern crate cpuprofiler;
-//extern crate seahash;
-//use seahash::*;
-//extern crate hashbrown;
+//extern crate cpuprofiler;
+extern crate hashbrown;
 
-use cpuprofiler::PROFILER;
+//use cpuprofiler::PROFILER;
 
 use clap::{App};
-//use std::hash::{Hash, Hasher};
-//use seahash::SeaHasher;
-
-//use std::collections::{HashMap, HashSet};
 use hashbrown::HashSet;
 use std::hash::BuildHasherDefault;
 use std::io::BufRead;
@@ -30,7 +24,6 @@ use debruijn::*;
 use debruijn::kmer::*;
 use debruijn::dna_string::*;
 use fnv::FnvHasher;
-//type FnvHashMap<V,T> = HashMap<V,T, BuildHasherDefault<FnvHasher>>;
 type FnvHashSet<V> = HashSet<V, BuildHasherDefault<FnvHasher>>;
 
 
@@ -61,7 +54,6 @@ fn identify_het_kmers(het_kmers: FnvHashSet<u64>, pairs: Vec<(u64,u64,u64)>, par
         for k in KmerX::kmers_from_ascii(&record.seq.as_bytes()) {
             let krc = k.rc();
             let to_hash = min( k.to_u64(), krc.to_u64() );
-            //let kmer = KmerX::from_u64(to_hash);
             subcount += 1;
             
             if het_kmers.contains(&to_hash) {
@@ -69,7 +61,7 @@ fn identify_het_kmers(het_kmers: FnvHashSet<u64>, pairs: Vec<(u64,u64,u64)>, par
             }
         }
     }
-    println!("records {} bases {}, kmers {}",count,bases,subcount);
+    //println!("records {} bases {}, kmers {}",count,bases,subcount);
     let reader = dna_io::DnaReader::from_path(&params.secondary);
     for record in reader {
         let seq = record.seq.to_uppercase();
@@ -81,9 +73,9 @@ fn identify_het_kmers(het_kmers: FnvHashSet<u64>, pairs: Vec<(u64,u64,u64)>, par
             }
         }
     }
-    println!("het kmers {}",het_kmers.len());
-    println!("prim {}",primary_het_kmers.len());
-    println!("sec {}",secondary_het_kmers.len());
+    //println!("het kmers {}",het_kmers.len());
+    //println!("prim {}",primary_het_kmers.len());
+    //println!("sec {}",secondary_het_kmers.len());
     let mut stat_count = [[[[0u64; 2]; 2]; 2]; 2];
     let mut stat_cov_sum = [[[[0u64; 2]; 2]; 2]; 2];
     for (het1, het2, cov) in &pairs {
@@ -94,7 +86,7 @@ fn identify_het_kmers(het_kmers: FnvHashSet<u64>, pairs: Vec<(u64,u64,u64)>, par
         if in_prim1 + in_prim2 + in_sec1 + in_sec2  == 0 {
             let k = KmerX::from_u64(*het1);
             let k2 = KmerX::from_u64(*het2);
-            println!("grep -E '{}|{}|{}|{}'",k.to_string(),k.rc().to_string(),k2.to_string(),k2.rc().to_string());
+            //println!("grep -E '{}|{}|{}|{}'",k.to_string(),k.rc().to_string(),k2.to_string(),k2.rc().to_string());
         }
         stat_count[in_prim1][in_prim2][in_sec1][in_sec2] += 1;
         stat_cov_sum[in_prim1][in_prim2][in_sec1][in_sec2] += cov;
@@ -159,9 +151,7 @@ fn identify_het_kmers(het_kmers: FnvHashSet<u64>, pairs: Vec<(u64,u64,u64)>, par
         stat_count[0][0][1][1] +
         stat_count[0][0][0][1] +
         stat_count[0][0][1][0] + 
-        stat_count[0][0][0][0]);
-
-    
+        stat_count[0][0][0][0]); 
 }
 
 fn load_kmers(params: &Params) -> (FnvHashSet<u64>, Vec<(u64,u64,u64)>){
