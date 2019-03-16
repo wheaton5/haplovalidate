@@ -6,14 +6,14 @@ echo 'export PATH=~/.cargo/bin:$PATH' >> ~/.bashrc
 source ~/.bashrc
 which cargo
 ```
-If the build fails on the htslib dependency you might need xz. You will need xz for the htslib dependency.
+If the build fails on the htslib dependency you might need xz.
 ```
 export CFLAGS='-I/path/to/xz/<version>/include'
 or add that to your .bashrc and source it
 ```
 Then you should be able to clone and install the project.
 ```
-https://github.com/wheaton5/haplovalidate
+git clone https://github.com/wheaton5/haplovalidate
 cd haplovalidate
 cargo build --release
 ```
